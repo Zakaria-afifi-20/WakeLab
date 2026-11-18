@@ -1,0 +1,6 @@
+@media (min-width: 576px) {
+    #cardDiv .card {
+        flex: 0 0 calc(33.333% - 30px);
+        margin-bottom: 20px;
+    }
+}
