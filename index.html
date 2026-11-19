@@ -27,29 +27,64 @@
                     <a class="nav-link" href="index.html">Acceuil <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#" data-toggle="modal" data-target="#exampleModal">Ajouter une activité
+                    <a class="nav-link" href="#" data-toggle="modal" data-target="#exampleModal" id="navbarlink">Ajouter
+                        une activité
                         <i class="fa-solid fa-circle-plus"></i></a>
                 </li>
             </ul>
+            <div class="col-md-2 mb-1">
+                <select class="custom-select my-1 mr-sm-2" id="themeselecte">
+                    <option selected value="">Theme</option>
+                    <option value="jeu">jeu</option>
+                    <option value="apprentissage">apprentissage</option>
+                    <option value="exercice ">exercice</option>
+                    <option value="autre">autre</option>
+                </select>
+            </div>
             <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Recherche</button>
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" id="recherchinput">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit" id="recherchebtn">Recherche</button>
             </form>
         </div>
     </nav>
     <div id="sinscrireDiv">
-        <div>
+        <button type="button" class="btn btn-primary d-none" data-toggle="modal" data-target="#exampleModal"
+            id="btnmodalinscrire">
+            Launch demo modal
+        </button>
+
+        <!-- Modal -->
+        <div class="modal fade" data-backdrop="static" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">S'inscrire</h5>
+                    </div>
+                    <div class="modal-body">
+                        <input type="text" class="form-control mb-2 mr-sm-2" id="nominput"
+                            placeholder="Entrer Votre Nom ">
+                        <span id="spanmsg"></span>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary mb-2" id="btnsinscrire">S'inscrire</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- <div>
             <form class="form-inline">
                 <input type="text" class="form-control mb-2 mr-sm-2" id="nominput" placeholder="Entrer Votre Nom ">
                 <span id="spanmsg"></span>
         </div>
         <button type="submit" class="btn btn-primary mb-2" id="btnsinscrire">S'inscrire</button>
-        </form>
+        </form> -->
     </div>
 
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
-        <div class="modal-dialog" >
+        <div class="modal-dialog">
             <div class="modal-content" role="document">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Ajouter une activité</h5>
@@ -82,8 +117,7 @@
                                 </div>-->
                             <div class="col-md-12 mb-1">
                                 <label for="validationServer02">Objectifs :</label>
-                                <input type="text" class="form-control " id="objectif" placeholder="Objectifs"
-                                    required>
+                                <input type="text" class="form-control " id="objectif" placeholder="Objectifs" required>
                                 <!-- <div class="valid-feedback">
                                     Looks good!
                                 </div> -->
@@ -92,8 +126,7 @@
                         <div class="form-row">
                             <div class="col-md-12 mb-1">
                                 <label for="validationServer03">Duree :</label>
-                                <input type="text" class="form-control " id="duree" placeholder="Duree"
-                                    required>
+                                <input type="text" class="form-control " id="duree" placeholder="Duree" required>
                                 <!-- <div class="invalid-feedback">
                                     Please provide a valid city.
                                 </div> -->
@@ -167,7 +200,7 @@
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
     <script src="./node_modules/axios/dist/axios.js"></script>
-    <script src="Script/script.js"></script>
+    <script src="Script/script.js" type="module"></script>
 </body>
 
 </html>

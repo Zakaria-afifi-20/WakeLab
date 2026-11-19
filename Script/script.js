@@ -8,6 +8,8 @@ async function getData() {
     console.log(data)
     stockeNom(data);
     ajouter()
+    gettheme()
+    recherchtitre(data)
 }
 
 getData();
@@ -23,6 +25,7 @@ function convertirTime(time) {
 
 
 function stockeNom(data) {
+     const btnmodalinscrire = document.getElementById('btnmodalinscrire')
     const btnnom = document.getElementById('btnsinscrire')
     const msg = document.getElementById('spanmsg')
     const localname = localStorage.getItem('nom_complet')
@@ -31,6 +34,7 @@ function stockeNom(data) {
         affichage(data)
     }
     else {
+        btnmodalinscrire.click()
         btnnom.addEventListener("click", (e) => {
             e.preventDefault()
             const nomcomplet = document.getElementById('nominput')
@@ -42,7 +46,7 @@ function stockeNom(data) {
                 msg.textContent = "Ecrire votre nom et prénom"
             } else {
                 localStorage.setItem("nom_complet", nomvalue)
-                affichage(data)
+                chargerActivites();
             }
         })
     }
@@ -79,6 +83,11 @@ function createCard(element, time) {
     const editPartial = createButton("Modification partielle", " fa-solid fa-pen ");
     const remove = createButton("Supprimer", "fa-solid fa-trash-can");
 
+    editPartial.setAttribute("data-id", element.id);
+    remove.setAttribute("data-id", element.id);
+    remove.classList.add("btnsupprimer");
+    remove.classList.add("btnmodofier");
+
     body.append(title, timeP, theme, description, authorP, editPartial, remove);
     card.appendChild(body);
 
@@ -90,6 +99,7 @@ function affichage(data) {
     const cardcDiv = document.getElementById('cardDiv');
     const SinscrireDiv = document.getElementById('sinscrireDiv');
 
+
     SinscrireDiv.innerHTML = "";
     cardcDiv.innerHTML = "";
 
@@ -97,6 +107,7 @@ function affichage(data) {
         const time = convertirTime(element.createdAt);
         cardcDiv.appendChild(createCard(element, time));
     });
+    supprimeractivite()
 }
 
 
@@ -105,14 +116,16 @@ async function chargerActivites() {
     const data = rsp.data
     affichage(data)
 }
-//////////////////////////////////////////////////////////////////////
 
+
+//////////////////////////////////////////////////////////////////////
 
 const ajouterForm = document.forms.ajouterForm
 
 function ajouter(data) {
     const btnajouter = document.getElementById('btnajouter');
     const localname = localStorage.getItem('nom_complet')
+
 
     btnajouter.addEventListener("click", async (e) => {
         e.preventDefault()
@@ -121,6 +134,7 @@ function ajouter(data) {
         const objectif = ajouterForm.objectif.value
         const duree = Number(ajouterForm.duree.value)
         const description = ajouterForm.description.value
+        console.log(localname);
 
         const obj = {
             titre: titre,
@@ -133,7 +147,6 @@ function ajouter(data) {
         await postElement(obj)
         chargerActivites()
     })
-
 }
 
 
@@ -143,11 +156,12 @@ async function postElement(element) {
         alert("Activitee Ajoute avec succes")
         document.getElementById('btnfermer').click()
     } catch (error) {
-        // alert("Ereur : " + error.message) 
-        console.log(error.response?.data);
-        const data = error.response?.data;
-        const msg = data?.message || data?.error || JSON.stringify(data) || error.message;
-        alert("Erreur lors de l'ajout : " + msg);
+        alert("Ereur : " + error.message)
+
+        // console.log(error.response?.data);
+        // const data = error.response?.data;
+        // const msg = data?.message || data?.error || JSON.stringify(data) || error.message;
+        // alert("Erreur lors de l'ajout : " + msg);
     }
 }
 
@@ -165,9 +179,64 @@ async function supprimer(id) {
         alert("Erreur lors de la suppression : lors de l'ajout : " + msg);
     }
 }
+function supprimeractivite() {
+    const suppressionbtn = document.querySelectorAll('.btnsupprimer')
+    suppressionbtn.forEach((botton) => {
+        botton.addEventListener("click", (e) => {
+            e.preventDefault()
+            const id = botton.getAttribute("data-id")
+            supprimer(id)
+        })
+    })
+}
+
+async function recherchtheme() {
+    const themeselecte = document.getElementById('themeselecte').value
+    const data = await axios.get(url + "?theme=" + themeselecte)
+
+    console.log(data.data);
+
+    if (data.data.length <= 0) {
+        alert("il n'ya pas une actuivite avec le theme : " + themeselecte)
+        return
+    }
+
+    affichage(data.data)
+
+}
+
+function gettheme() {
+    const themeselecte = document.getElementById('themeselecte')
+    themeselecte.addEventListener("input", (e) => {
+        e.preventDefault();
+        recherchtheme()
+    })
+}
+function recherchtitre(data) {
+    const recherchebtn = document.getElementById('recherchebtn')
+
+    recherchebtn.addEventListener("click", (e) => {
+        e.preventDefault()
+        const recherchinput = document.getElementById('recherchinput').value.toLowerCase()
+        const datafiltre = data.filter(activity => activity.titre.toLowerCase() == recherchinput)
+        console.log(recherchinput);
+        console.log(datafiltre);
+        if (datafiltre) {
+            affichage(datafiltre)
+
+        }
+        else {
+            alert("Activite introuvable")
+        }
+    })
 
 
+}
 
+
+function modifier() {
+
+}
 
 
 
